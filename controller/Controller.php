@@ -66,7 +66,7 @@ class Controller
         if (!$connexion) {
             die('La communication à la base de données a echouée : ' . pg_last_error());
         }
-        $result = pg_query_params($connexion, $preparedStatement,array($id,$profil));;
+        $result = pg_query_params($connexion, $preparedStatement,array($id,$profil));
         if (!$result) {
             die("Erreur dans la requête SQL : " . pg_last_error($connexion));
         }
@@ -97,7 +97,7 @@ class Controller
     }
 
     function getReponse($idquestion){
-        $preparedStatement = "SELECT * FROM reponse WHERE idQuestion=$1 ORDER BY idQuestion";;
+        $preparedStatement = "SELECT * FROM reponse WHERE idQuestion=$1 ORDER BY idQuestion";
         $connexion = Database::getInstance()->getConnection();
         if (!$connexion) {
             die('La communcation à la base de données a echouée : ' . pg_last_error());

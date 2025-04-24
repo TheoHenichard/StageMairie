@@ -253,7 +253,6 @@ foreach ($listCategorie as $categorie){
                     <?php endforeach; ?>
                     </tbody>
                 </table>
-                c
                 <?php
             }
         }

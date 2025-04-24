@@ -217,9 +217,10 @@ foreach ($listCategorie as $categorie){
                 <?php
             }
         }
+
             $listQuestion = $controller->getQuestion($categorie['idcat']);
-            var_dump($listQuestion);
             foreach ($listQuestion as $question){
+                if($liaisons['idquestion']!=null && $liaisons['idquestion']==$question['idquestion']){
                 $texte = $question['texte'];
                 $texte1 = $question['texte'];
                 if($question['isquestion'] == "t") {
@@ -238,16 +239,22 @@ foreach ($listCategorie as $categorie){
                         echo"<form><textarea style='resize: none' rows='$taille' cols='130vw'></textarea> </form><br>";
                         break;
                     case "checkbox":
-                        for($i=0;$i<$question['taille'];$i++){
-                            echo "<input type='checkbox'><br>";
+                        $listReponse = $controller->getReponse($question['idquestion']);
+                        foreach ($listReponse as $index => $reponse) {
+                            $reponseT = htmlspecialchars($reponse['reponse']);
+                            $name = htmlspecialchars($categorie['idcat']);
+                            $idUnique = "reponse_" . htmlspecialchars($index).htmlspecialchars($categorie['idcat']).htmlspecialchars($question['idquestion']);
+                            echo "<input class='q' id='$idUnique' type='checkbox' name='$name' value='$reponseT'>";
+                            echo "<label for='$idUnique'>$reponseT</label>";
                         }
                         break;
                     case "radio":
                         $listReponse = $controller->getReponse($question['idquestion']);
                         foreach ($listReponse as $index => $reponse) {
                             $reponseT = htmlspecialchars($reponse['reponse']);
-                            $idUnique = "reponse_" . htmlspecialchars($index);
-                            echo "<input class='q' id='$idUnique' type='radio' name='test' value='$reponseT'>";
+                            $name = htmlspecialchars($categorie['idcat']);
+                            $idUnique = "reponse_" . htmlspecialchars($index).htmlspecialchars($categorie['idcat']);
+                            echo "<input class='q' id='$idUnique' type='radio' name='$name' value='$reponseT'>";
                             echo "<label for='$idUnique'>$reponseT</label>";
                         }
 
@@ -257,7 +264,7 @@ foreach ($listCategorie as $categorie){
                 if($question['ordre'] == 2){
                     $e = $question['texte'];
                 }
-            }
+            }}
         }
     }
 

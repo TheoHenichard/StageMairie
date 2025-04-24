@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/0cdbd3b2-e01f-4bb4-8467-26c5941e41cc/console.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/controller/Controller.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/vue/Entretien.php" dialect="GenericSQL" />
+  </component>
+</project>

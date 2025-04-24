@@ -59,11 +59,15 @@ if($profil==3){
 <table>
     <tr>
         <td style='width: 30%'>DIRECTION</td>
-        <td><input type="text"  class="inv" value=></td>
+        <td><label>
+                <input type="text"  class="inv" value=>
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>SERVICE</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
 </table>
 
@@ -71,35 +75,51 @@ if($profil==3){
 <table>
     <tr>
         <td style='width: 30%'>NOM</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>PRENOM</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>GRADE</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>EMPLOI</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>LIEU D'AFFECTATION</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>TEMPS DE TRAVAIL</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>QUOTITÉ DE TRAVAIL</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>DIPLOME LE PLUS ÉLEVÉ OBTENU PAR L’AGENT </td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
 </table>
 
@@ -107,19 +127,27 @@ if($profil==3){
 <table>
     <tr>
         <td style='width: 30%'>NOM</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>PRENOM</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>GRADE</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
     <tr>
         <td >EMPLOI</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><label>
+                <input type="text" class="inv" value="">
+            </label></td>
     </tr>
 </table>
 
@@ -134,27 +162,39 @@ if($profil==3){
     </tr>
     <tr>
         <td style='width: 30%'>DATE D’ÉLABORATION DE LA FICHE DE POSTE :</td>
-        <td><input class="inv" type="text" value=""></td>
+        <td><label>
+                <input class="inv" type="text" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>DATE DE MISE A JOUR DE LA FICHE DE POSTE : </td>
-        <td><input class="inv" type="text" value=""></td>
+        <td><label>
+                <input class="inv" type="text" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>CONVOCATION : </td>
-        <td><input class="inv" type="text" value=""></td>
+        <td><label>
+                <input class="inv" type="text" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>DURÉE ENTRETIEN : </td>
-        <td><input class="inv" type="text" value=""></td>
+        <td><label>
+                <input class="inv" type="text" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>NOTIFICATION : </td>
-        <td><input class="inv" type="text" value=""></td>
+        <td><label>
+                <input class="inv" type="text" value="">
+            </label></td>
     </tr>
     <tr>
         <td style='width: 30%'>RETOUR A L’AGENT : </td>
-        <td><input class="inv" type="text" value=""></td>
+        <td><label>
+                <input class="inv" type="text" value="">
+            </label></td>
     </tr>
 </table>
 
@@ -279,15 +319,17 @@ foreach ($listCategorie as $categorie){
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <select>
-                    <option> </option>
-                    <?php
-                    $e = $controller->getCategorie();
-                    foreach ($e as $categorie){
-                        echo "<option value=''>$categorie[nom]</option>";
-                    }
-                    ?>
-                </select>
+                <label>
+                    <select>
+                        <option> </option>
+                        <?php
+                        $e = $controller->getCategorie();
+                        foreach ($e as $categorie){
+                            echo "<option value=''>$categorie[nom]</option>";
+                        }
+                        ?>
+                    </select>
+                </label>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

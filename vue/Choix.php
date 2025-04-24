@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4">
             <div class="card" style="width: 18rem;">
-                <img src="PP_neutre.jpg" class="card-img-top" alt="...">
+                <img src="CL16.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">CCAS2025 C2</h5>
                     <p class="card-text">Test des différents profils</p>
@@ -27,7 +27,7 @@
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4">
             <div class="card" style="width: 18rem;">
-                <img src="PP_neutre.jpg" class="card-img-top" alt="...">
+                <img src="CL16.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">CCAS2025 C1-B2-A3</h5>
                     <p class="card-text">Test des différents profils</p>
@@ -37,7 +37,7 @@
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4">
             <div class="card" style="width: 18rem;">
-                <img src="PP_neutre.jpg" class="card-img-top" alt="...">
+                <img src="CL16.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">CCAS2025 B1-A2-A1</h5>
                     <p class="card-text">Test des différents profils</p>

@@ -253,7 +253,7 @@ foreach ($listCategorie as $categorie){
                     <?php endforeach; ?>
                     </tbody>
                 </table>
-                <br>
+                c
                 <?php
             }
         }
@@ -287,6 +287,7 @@ foreach ($listCategorie as $categorie){
                             echo "<input class='q' id='$idUnique' type='checkbox' name='$name' value='$reponseT'>";
                             echo "<label for='$idUnique'>$reponseT</label>";
                         }
+                        echo "<br><br>";
                         break;
                     case "radio":
                         $listReponse = $controller->getReponse($question['idquestion']);
@@ -297,7 +298,7 @@ foreach ($listCategorie as $categorie){
                             echo "<input class='q' id='$idUnique' type='radio' name='$name' value='$reponseT'>";
                             echo "<label for='$idUnique'>$reponseT</label>";
                         }
-
+                        echo "<br><br>";
                         break;
                 }
 

@@ -59,15 +59,11 @@ if($profil==3){
 <table>
     <tr>
         <td style='width: 30%'>DIRECTION</td>
-        <td><label>
-                <input type="text"  class="inv" value=>
-            </label></td>
+        <td><input type="text"  class="inv" value=></td>
     </tr>
     <tr>
         <td style='width: 30%'>SERVICE</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
 </table>
 
@@ -75,51 +71,35 @@ if($profil==3){
 <table>
     <tr>
         <td style='width: 30%'>NOM</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>PRENOM</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>GRADE</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>EMPLOI</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>LIEU D'AFFECTATION</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>TEMPS DE TRAVAIL</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>QUOTITÉ DE TRAVAIL</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>DIPLOME LE PLUS ÉLEVÉ OBTENU PAR L’AGENT </td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
 </table>
 
@@ -127,27 +107,19 @@ if($profil==3){
 <table>
     <tr>
         <td style='width: 30%'>NOM</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>PRENOM</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>GRADE</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
     <tr>
         <td >EMPLOI</td>
-        <td><label>
-                <input type="text" class="inv" value="">
-            </label></td>
+        <td><input type="text" class="inv" value=""></td>
     </tr>
 </table>
 
@@ -162,39 +134,27 @@ if($profil==3){
     </tr>
     <tr>
         <td style='width: 30%'>DATE D’ÉLABORATION DE LA FICHE DE POSTE :</td>
-        <td><label>
-                <input class="inv" type="text" value="">
-            </label></td>
+        <td><input class="inv" type="text" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>DATE DE MISE A JOUR DE LA FICHE DE POSTE : </td>
-        <td><label>
-                <input class="inv" type="text" value="">
-            </label></td>
+        <td><input class="inv" type="text" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>CONVOCATION : </td>
-        <td><label>
-                <input class="inv" type="text" value="">
-            </label></td>
+        <td><input class="inv" type="text" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>DURÉE ENTRETIEN : </td>
-        <td><label>
-                <input class="inv" type="text" value="">
-            </label></td>
+        <td><input class="inv" type="text" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>NOTIFICATION : </td>
-        <td><label>
-                <input class="inv" type="text" value="">
-            </label></td>
+        <td><input class="inv" type="text" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>RETOUR A L’AGENT : </td>
-        <td><label>
-                <input class="inv" type="text" value="">
-            </label></td>
+        <td><input class="inv" type="text" value=""></td>
     </tr>
 </table>
 
@@ -203,11 +163,16 @@ if($profil==3){
 
 <?php
 $listCategorie = $controller->getCategorie();
+
 foreach ($listCategorie as $categorie){
-    echo "<b class='Titre'>$categorie[nom]</b><br>";
+    if($categorie['titre']){
+        echo "<h3 class='Titre'>$categorie[nom]</h3><br>";
+    }
+    else{
+        echo "<b class='Titre'>$categorie[nom]</b><br>";
+    }
 
-    $listLiaison = $controller->getLiaison($categorie['idcat'],$profil);
-
+    $listLiaison = $controller->getLiaison($categorie['ordre'],$profil);
     foreach ($listLiaison as $liaisons) {
         if($liaisons['idtab']!=null){
             $listTab = $controller->getTab($liaisons['idtab']);
@@ -256,8 +221,46 @@ foreach ($listCategorie as $categorie){
                 <?php
             }
         }
+        if($liaisons['idtableau']!=null){
+            $listTableau = $controller->getTableau();
+            foreach ($listTableau as $tableau){
+                if ($liaisons['idtableau']==$tableau['idtableau']){
+                ?>
+                <table>
+                    <?php
+                    $listLigne = $controller->getLigneT();
+                    foreach ($listLigne as $ligne) {
+                        $listVal = $controller->getLigneR($ligne['idligne']);
+                    if ($ligne['idtableau']==$tableau['idtableau']){
+                        ?>
+                    <tr>
+                        <?php
 
-            $listQuestion = $controller->getQuestion($categorie['idcat']);
+                        foreach ($listVal as $val){
+                            if ($ligne['idligne']==$val['idlignet']){
+                            if ($val['texte']=="text"){
+                                echo'<td><input type="text" class="inv" value=""></td>';
+                            }
+                            else if ($val['texte']=="radio"){
+                                ?>
+                                <td><input type="radio" class="inv" name="<?=$ligne['idligne']?>" value=""></td>
+                                <?php
+                            }
+                            else{
+                                ?>
+                                <td><?= $val['texte'] ?> </td>
+                                <?php
+                            }
+                         }}
+                        }
+                    }
+                    ?>
+                    </tr>
+                </table>
+            <?php
+            }}
+        }
+        $listQuestion = $controller->getQuestion($categorie['ordre']);
             foreach ($listQuestion as $question){
                 if($liaisons['idquestion']!=null && $liaisons['idquestion']==$question['idquestion']){
                 $texte = $question['texte'];
@@ -275,7 +278,7 @@ foreach ($listCategorie as $categorie){
                 switch($question['typeaffichage']){
                     case "text":
                         $taille = $question['taille'];
-                        echo"<form><textarea style='resize: none' rows='$taille' cols='130vw'></textarea> </form><br>";
+                        echo"<form><textarea style='resize: none' rows='$taille' cols='100%'></textarea> </form><br>";
                         break;
                     case "checkbox":
                         $listReponse = $controller->getReponse($question['idquestion']);
@@ -292,8 +295,8 @@ foreach ($listCategorie as $categorie){
                         $listReponse = $controller->getReponse($question['idquestion']);
                         foreach ($listReponse as $index => $reponse) {
                             $reponseT = htmlspecialchars($reponse['reponse']);
-                            $name = htmlspecialchars($categorie['idcat']);
-                            $idUnique = "reponse_" . htmlspecialchars($index).htmlspecialchars($categorie['idcat']);
+                            $name = htmlspecialchars($categorie['idcat']).htmlspecialchars($question['idquestion']);
+                            $idUnique = "reponse_" . htmlspecialchars($index).htmlspecialchars($categorie['idcat']).htmlspecialchars($question['idquestion']);
                             echo "<input class='q' id='$idUnique' type='radio' name='$name' value='$reponseT'>";
                             echo "<label for='$idUnique'>$reponseT</label>";
                         }

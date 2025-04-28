@@ -43,7 +43,7 @@ class Controller
     }
 
     function getTab($tabId){
-        $preparedStatement = "SELECT idTab,titre FROM Tableau WHERE idTab=$1 ORDER BY idTab";
+        $preparedStatement = "SELECT idTab,titre FROM BigTableau WHERE idTab=$1 ORDER BY idTab";
         $connexion = Database::getInstance()->getConnection();
         if (!$connexion) {
             die('La communcation à la base de données a echouée : ' . pg_last_error());
@@ -61,7 +61,7 @@ class Controller
 
 
     function getLiaison($id,$profil){
-        $preparedStatement = "SELECT idliaison,idquestion,liaison.identretien,idreponse,idtab,idcat FROM liaison JOIN Entretien ON liaison.idEntretien = Entretien.idEntretien JOIN TypeEntretien on Entretien.idEntretien = TypeEntretien.idEntretien WHERE idCat=$1 AND TypeEntretien.type<=$2 ORDER BY ordre";
+        $preparedStatement = "SELECT * FROM liaison JOIN Entretien ON liaison.idEntretien = Entretien.idEntretien JOIN TypeEntretien on Entretien.idEntretien = TypeEntretien.idEntretien WHERE idCat=$1 AND TypeEntretien.type<=$2 ORDER BY ordre";
         $connexion = Database::getInstance()->getConnection();
         if (!$connexion) {
             die('La communication à la base de données a echouée : ' . pg_last_error());
@@ -112,5 +112,59 @@ class Controller
 
         }
         return $tab;
+    }
+
+    function getTableau(){
+        $preparedStatement = "SELECT * FROM Tableau";
+        $connexion = Database::getInstance()->getConnection();
+        if (!$connexion) {
+            die('La communcation à la base de données a echouée : ' . pg_last_error());
+        }
+        $result = pg_query($connexion, $preparedStatement);
+        if (!$result) {
+            die("Erreur dans la requête SQL : " . pg_last_error($connexion));
+        }
+        $tab = array();
+        while ($row = pg_fetch_assoc($result)) {
+            $tab[] = $row;
+        }
+        return $tab;
+    }
+
+
+    function getLigneT(){
+        $preparedStatement = "SELECT * FROM LigneT";
+        $connexion = Database::getInstance()->getConnection();
+        if (!$connexion) {
+            die('La communcation à la base de données a echouée : ' . pg_last_error());
+        }
+        $result = pg_query($connexion, $preparedStatement);
+        if (!$result) {
+            die("Erreur dans la requête SQL : " . pg_last_error($connexion));
+        }
+        $ligne = array();
+        while ($row = pg_fetch_assoc($result)) {
+            $ligne[] = $row;
+
+        }
+        return $ligne;
+    }
+
+    function getLigneR($idLigne){
+        $preparedStatement = "SELECT * FROM Valeur WHERE idLigneT=$1";;
+        $connexion = Database::getInstance()->getConnection();
+        if (!$connexion) {
+            die('La communcation à la base de données a echouée : ' . pg_last_error());
+        }
+        $result = pg_query_params($connexion, $preparedStatement, array($idLigne));
+        if (!$result) {
+            die("Erreur dans la requête SQL : " . pg_last_error($connexion));
+        }
+        $ligne = array();
+        while ($row = pg_fetch_assoc($result)) {
+            $ligne[] = $row;
+
+        }
+        return $ligne;
     }
 }

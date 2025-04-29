@@ -1,3 +1,7 @@
+<?php
+include_once "../controller/Controller.php";
+$controller = new Controller();
+?>
 <!doctype html>
 <html lang="fr">
 
@@ -12,42 +16,16 @@
 
 </head>
 <body style="margin-left: 10%;margin-top: 5%; margin-right: 10%" class="bg-gray-200">
-
-<div class="container">
-    <div class="row">
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <div class="card" style="width: 18rem;">
-                <img src="CL16.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">CCAS2025 C2</h5>
-                    <p class="card-text">Test des différents profils</p>
-                    <a href="Entretien.php?profil=1" class="btn btn-primary">Profil C2</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <div class="card" style="width: 18rem;">
-                <img src="CL16.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">CCAS2025 C1-B2-A3</h5>
-                    <p class="card-text">Test des différents profils</p>
-                    <a href="Entretien.php?profil=2" class="btn btn-primary">Profil C1-B2-A3</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <div class="card" style="width: 18rem;">
-                <img src="CL16.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">CCAS2025 B1-A2-A1</h5>
-                    <p class="card-text">Test des différents profils</p>
-                    <a href="Entretien.php?profil=3" class="btn btn-primary">Profil B1-A2-A1</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
+<form action="Employe.php" method="get">
+<select name='test'>
+    <option> </option>
+    <?php
+    $e = $controller->getEmploye();
+    foreach ($e as $categorie){
+        echo "<option name='test1' value='$categorie[idemploye]'>$categorie[prenom] $categorie[nom]</option>";
+    }
+    ?>
+</select>
+    <input type="submit" value="Valider">
+</form>
 </body>
-<?php

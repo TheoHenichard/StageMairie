@@ -65,6 +65,12 @@ input[type="radio"]:checked + label {
     break-inside: avoid;
 }
 
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
+
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;

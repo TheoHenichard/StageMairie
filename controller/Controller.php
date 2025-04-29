@@ -61,7 +61,7 @@ class Controller
 
 
     function getLiaison($id,$profil){
-        $preparedStatement = "SELECT * FROM liaison JOIN Entretien ON liaison.idEntretien = Entretien.idEntretien JOIN TypeEntretien on Entretien.idEntretien = TypeEntretien.idEntretien WHERE idCat=$1 AND TypeEntretien.type<=$2 ORDER BY ordre";
+        $preparedStatement = "SELECT * FROM liaison JOIN TypeEntretien on Liaison.idTypeE = TypeEntretien.idTypeE WHERE idCat=$1 AND TypeEntretien.type<=$2 ORDER BY ordre";
         $connexion = Database::getInstance()->getConnection();
         if (!$connexion) {
             die('La communication à la base de données a echouée : ' . pg_last_error());
@@ -167,4 +167,39 @@ class Controller
         }
         return $ligne;
     }
+
+    function getEntretien($idEmploye){
+        $preparedStatement = "SELECT * FROM Entretien WHERE idEmploye=$1";
+        $connexion = Database::getInstance()->getConnection();
+        if (!$connexion) {
+            die('La communcation à la base de données a echouée : ' . pg_last_error());
+        }
+        $result = pg_query_params($connexion, $preparedStatement, array($idEmploye));
+        if (!$result) {
+            die("Erreur dans la requête SQL : " . pg_last_error($connexion));
+        }
+        $ligne = array();
+        while ($row = pg_fetch_assoc($result)) {
+            $ligne[] = $row;
+
+        }
+        return $ligne;
+    }
+
+    function getEmploye(){
+        $preparedStatement = "SELECT * FROM Employe";
+        $connexion = Database::getInstance()->getConnection();
+        if (!$connexion) {
+            die('La communcation à la base de données a echouée : ' . pg_last_error());
+        }
+        $result = pg_query($connexion, $preparedStatement);
+        if (!$result) {
+            die("Erreur dans la requête SQL : " . pg_last_error($connexion));
+        }
+        $ligne = array();
+        while ($row = pg_fetch_assoc($result)) {
+            $ligne[] = $row;
+
+        }
+        return $ligne;}
 }

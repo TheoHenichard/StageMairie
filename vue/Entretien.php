@@ -28,7 +28,7 @@ if (isset($_GET['profil'])) {
 
 </head>
 <body style="margin-left: 10%; margin-right: 10%">
-
+<form action="Entretien.php" method="post">
 <div class="header">
     <img src="logo_footer.png" alt="logo">
     <h1 style="margin: 0;">C.C.A.S. BOULOGNE-SUR-MER <br> Année 2025</h1>
@@ -59,11 +59,11 @@ if($profil==3){
 <table>
     <tr>
         <td style='width: 30%'>DIRECTION</td>
-        <td><input type="text"  class="inv" value=></td>
+        <td><input type="text"  class="inv" name="direction" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>SERVICE</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="service" value=""></td>
     </tr>
 </table>
 
@@ -71,35 +71,35 @@ if($profil==3){
 <table>
     <tr>
         <td style='width: 30%'>NOM</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="nom" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>PRENOM</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="prenom" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>GRADE</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="grade" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>EMPLOI</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="emploi" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>LIEU D'AFFECTATION</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="lieu" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>TEMPS DE TRAVAIL</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="temps_travail" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>QUOTITÉ DE TRAVAIL</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="quotite" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>DIPLOME LE PLUS ÉLEVÉ OBTENU PAR L’AGENT </td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="diplome_plus_eleve" value=""></td>
     </tr>
 </table>
 
@@ -107,19 +107,19 @@ if($profil==3){
 <table>
     <tr>
         <td style='width: 30%'>NOM</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="nom_eval" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>PRENOM</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="prenom_eval" value=""></td>
     </tr>
     <tr>
         <td style='width: 30%'>GRADE</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="grade_eval" value=""></td>
     </tr>
     <tr>
         <td >EMPLOI</td>
-        <td><input type="text" class="inv" value=""></td>
+        <td><input type="text" class="inv" name="emploi_eval" value=""></td>
     </tr>
 </table>
 
@@ -313,7 +313,9 @@ foreach ($listCategorie as $categorie){
 
 
 ?>
-
+    <input type="submit" value="Envoyer">
+</form>
+<div class="no-print">
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -346,37 +348,26 @@ foreach ($listCategorie as $categorie){
     Ajouter une question
 </button>
 
-<?php
-$isQuestion = $_POST['q'];
-$texte = $_POST['texte'];
-$typeaffichage = $_POST['typeaffichage'];
-$taille = $_POST['taille'];
-$preparedStatement = "INSERT INTO element (isQuestion, texte, typeaffichage, taille) VALUES ($1, $2, $3, $4)";
-$connexion = Database::getInstance()->getConnection();
-if (!$connexion) {
-    die("Erreur dans la requête SQL : " . pg_last_error($connexion));
-}
-$result = pg_query_params($connexion, $preparedStatement, array($isQuestion, $texte, $typeaffichage, $taille));
-
-?>
 <button id="downloadPdf" class="btn btn-primary">Télécharger en PDF</button>
-
+</div>
 <script>
     document.getElementById('downloadPdf').addEventListener('click', () => {
         const { jsPDF } = window.jspdf;
+        const noPrintElements = document.querySelectorAll('.no-print');
+        noPrintElements.forEach(el => el.style.display = 'none');
+        
         const pdf = new jsPDF({
             orientation: "portrait",
             unit: "mm",
             format: "a4"
         });
-
-
-
         const pageWidth = pdf.internal.pageSize.getWidth();
         const htmlWidth = document.body.scrollWidth;
         const scaleFactor = pageWidth / htmlWidth;
+
         pdf.html(document.body, {
             callback: function (pdf) {
+                noPrintElements.forEach(el => el.style.display = '');
                 pdf.save("page.pdf");
             },
             y: 10,

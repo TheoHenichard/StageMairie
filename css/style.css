@@ -11,6 +11,8 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
+
+
 td {
     font-size: 1vw;
 }
@@ -59,6 +61,14 @@ input[type="radio"]:checked + label {
     margin: 20px 0;
     font-size: 16px;
     text-align: left;
+    page-break-after: always;
+    break-inside: avoid;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
 }
 
 table {
@@ -66,7 +76,8 @@ table {
     border-collapse: collapse;
     width: 100%;
     margin-right: 70px;
-    margin-bottom: 70px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     font-size: 16px;
     text-align: left;
 }
@@ -134,8 +145,8 @@ b.Titre{
     font-family: Arial, serif;
 }
 
-h3.petitTitre{
-    color: #6EA8E5;
+h3.Titre{
+    color: #335798;
     font-family: Arial, serif;
 }
 

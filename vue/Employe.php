@@ -5,11 +5,18 @@ $controller = new Controller();
 
 
 if (isset($_GET['test'])) {
-    $test = (int)$_GET['test'];
+    $idemploye = (int)$_GET['test'];
 }
 
-$listEntretien = $controller->getEntretien($test);
-var_dump($listEntretien);
+if (isset($_GET['nom'])) {
+    $nom = $_GET['nom'];
+}
+
+if (isset($_GET['prenom'])) {
+    $prenom = $_GET['prenom'];
+}
+
+$listEntretien = $controller->getEntretien($idemploye);
 ?>
 
 <!doctype html>
@@ -28,39 +35,70 @@ var_dump($listEntretien);
 <body style="margin-left: 10%;margin-top: 5%; margin-right: 10%" class="bg-gray-200">
 
 <div class="container">
-    <div class="row">
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <div class="card" style="width: 18rem;">
-                <img src="CL16.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">CCAS2025 C2</h5>
-                    <p class="card-text">Test des différents profils</p>
-                    <a href="Entretien.php?profil=1" class="btn btn-primary">Profil C2</a>
+    <div class="row g-3">
+        <?php
+        foreach ($listEntretien as $entretien){
+            echo "<div class='col-sm-4 col-md-4 col-lg-4'>
+                <div class='card'>
+                    <div class='card-body'>
+                        <h5 class='card-title'>$entretien[annee]</h5>
+                        <p class='card-text'>$entretien[dateentretien]</p>
+                        <a href='Entretien.php?profil=$entretien[type]' class='btn btn-primary'>Voir</a>
+                    </div>
                 </div>
+            </div>";
+        }
+        ?>
+
+    </div>
+</div>
+<form action="Employe.php" method="get">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <div class="card" style="width: 18rem;">
-                <img src="CL16.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">CCAS2025 C1-B2-A3</h5>
-                    <p class="card-text">Test des différents profils</p>
-                    <a href="Entretien.php?profil=2" class="btn btn-primary">Profil C1-B2-A3</a>
-                </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" name="annee" id="annee" placeholder="Nom">
+                <br>
+                <select name="type">
+                    <option value="1">CCAS2025 C2</option>
+                    <option value="2">CCAS2025 C1-B2-A3</option>
+                    <option value="3">CCAS2025 B1-A2-A1</option>
+                </select>
+                <input type="hidden" name="test" value="<?php echo $idemploye; ?>">
             </div>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <div class="card" style="width: 18rem;">
-                <img src="CL16.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">CCAS2025 B1-A2-A1</h5>
-                    <p class="card-text">Test des différents profils</p>
-                    <a href="Entretien.php?profil=3" class="btn btn-primary">Profil B1-A2-A1</a>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" >Save changes</button>
             </div>
         </div>
     </div>
 </div>
+    <br>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Ajouter un entretien
+</button>
+</form>
 
+<?php
+$annee = $_GET['annee'];
+$type = $_GET['type'];
+$date = date("Y-m-d");
+$idemploye = isset($_GET['test']) ? (int)$_GET['test'] : null;
 
-</body>
+if (empty($annee) || empty($type) || empty($idemploye)) {
+    die();
+}
+$preparedStatement = "INSERT INTO entretien (annee, type, idemploye, dateentretien) VALUES ($1, $2, $3, $4)";
+$connexion = Database::getInstance()->getConnection();
+var_dump([$annee, $type, $idemploye, $date]);
+$result = pg_query_params($connexion, $preparedStatement, array($annee, $type, $idemploye, $date));
+if (!$result) {
+    die('Erreur SQL : ' . pg_last_error($connexion));
+}
+
+echo 'Données insérées avec succès !';
+?>

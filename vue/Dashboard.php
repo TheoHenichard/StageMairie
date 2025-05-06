@@ -21,9 +21,13 @@ $controller = new Controller();
     <option> </option>
     <?php
     $e = $controller->getEmploye();
+    var_dump($e);
     foreach ($e as $categorie){
-        echo "<option name='test1' value='$categorie[idemploye]'>$categorie[prenom] $categorie[nom]</option>";
+        echo 'test';
+        print $categorie['idemploye'];
+        echo "<option name='test1' value='$categorie[idemploye]'>$categorie[prenom] $categorie[nom] $categorie[idemploye]</option>";
     }
+    echo $categorie['nom'];
     ?>
 </select>
     <input type="submit" value="Valider">

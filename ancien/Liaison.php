@@ -1,5 +1,8 @@
 <?php
-class Liaison{
+
+namespace ancien;
+class Liaison
+{
     public $idliaison;
     public $idtab;
     public $idquestion;
@@ -113,7 +116,6 @@ class Liaison{
     {
         $this->ordre = $ordre;
     }
-
 
 
 }

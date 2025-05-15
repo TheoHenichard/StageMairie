@@ -121,7 +121,7 @@ table {
     padding: 20px;
     border: 2px solid #ddd;
     border-radius: 8px;
-    width: 60%;
+    width: 70%;
     background-color: #f9f9f9;
 }
 
@@ -153,3 +153,26 @@ h3.Titre{
 p{
     font-family: Arial, serif;
 }
+
+
+
+
+
+.container-question .col {
+    border: 1px solid #ced4da;
+    background-color: white;
+}
+
+.container-question input[type="text"] {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+}
+
+
+
+
+
+
+

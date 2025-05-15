@@ -1,8 +1,4 @@
 <?php
-include_once "../controller/Controller.php";
-
-$controller = new Controller();
-
 
 if (isset($_GET['test'])) {
     $idemploye = (int)$_GET['test'];
@@ -16,7 +12,7 @@ if (isset($_GET['prenom'])) {
     $prenom = $_GET['prenom'];
 }
 
-$listEntretien = $controller->getEntretien($idemploye);
+$idemploye = 1;
 ?>
 
 <!doctype html>
@@ -37,13 +33,29 @@ $listEntretien = $controller->getEntretien($idemploye);
 <div class="container">
     <div class="row g-3">
         <?php
+        $listEntretien = $entretienRepository->getById($idemploye);
         foreach ($listEntretien as $entretien){
+            $type = $entretien->getIdTypeEntretien();
+            $date = $entretien->getDate();
             echo "<div class='col-sm-4 col-md-4 col-lg-4'>
                 <div class='card'>
                     <div class='card-body'>
-                        <h5 class='card-title'>$entretien[annee]</h5>
-                        <p class='card-text'>$entretien[dateentretien]</p>
-                        <a href='Entretien.php?profil=$entretien[type]' class='btn btn-primary'>Voir</a>
+                        <h5 class='card-title'>$date</h5>
+                        <p class='card-text'>$date</p>
+                        <a href='Entretien.php?profil=$type' class='btn btn-primary'>Voir</a>
+                    </div>
+                </div>
+            </div>";
+        }
+        foreach ($listEntretien as $entretien){
+            $type = $entretien->getIdTypeEntretien();
+            $date = $entretien->getDate();
+            echo "<div class='col-sm-4 col-md-4 col-lg-4'>
+                <div class='card'>
+                    <div class='card-body'>
+                        <h5 class='card-title'>$date</h5>
+                        <p class='card-text'>$date</p>
+                        <a href='Entretien.php?profil=$type' class='btn btn-primary'>Voir</a>
                     </div>
                 </div>
             </div>";
@@ -84,8 +96,7 @@ $listEntretien = $controller->getEntretien($idemploye);
 </form>
 
 <?php
-$annee = $_GET['annee'];
-$type = $_GET['type'];
+
 $date = date("Y-m-d");
 $idemploye = isset($_GET['test']) ? (int)$_GET['test'] : null;
 

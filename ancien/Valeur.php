@@ -1,5 +1,8 @@
 <?php
-class Valeur{
+
+namespace ancien;
+class Valeur
+{
     public $idvaleur;
     public $idlignetableau;
     public $texte;

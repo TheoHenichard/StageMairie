@@ -1,7 +1,3 @@
-<?php
-include_once "../controller/Controller.php";
-$controller = new Controller();
-?>
 <!doctype html>
 <html lang="fr">
 
@@ -16,20 +12,38 @@ $controller = new Controller();
 
 </head>
 <body style="margin-left: 10%;margin-top: 5%; margin-right: 10%" class="bg-gray-200">
-<form action="Employe.php" method="get">
-<select name='test'>
+<form action="../public/index.php" method="post">
+
+<select name='employe'>
     <option> </option>
     <?php
-    $e = $controller->getEmploye();
-    var_dump($e);
-    foreach ($e as $categorie){
-        echo 'test';
-        print $categorie['idemploye'];
-        echo "<option name='test1' value='$categorie[idemploye]'>$categorie[prenom] $categorie[nom] $categorie[idemploye]</option>";
+    $e = $employeRepository->getAll();
+    foreach ($e as $employe){
+        $idEmploye = $employe->getIdEmploye();
+        $nom = $employe->getNom();
+        echo "<option name='' value='$idEmploye'> $nom $idEmploye</option>";
     }
-    echo $categorie['nom'];
     ?>
 </select>
     <input type="submit" value="Valider">
 </form>
+<?php
+if (isset($_POST['employe'])) {
+    $idemploye = $_POST['employe'];
+    $listEntretien = $entretienRepository->getById($idemploye);
+    foreach ($listEntretien as $entretien){
+        $idEntretien = $entretien->getIdTypeEntretien();
+        $date = $entretien->getDate();
+        echo "<div class='col-sm-4 col-md-4 col-lg-4'>
+                <div class='card'>
+                    <div class='card-body'>
+                        <h5 class='card-title'>$date</h5>
+                        <p class='card-text'>$date</p>
+                        <a href='entretien/voir/profil=$idEntretien' class='btn btn-primary'>Voir</a>
+                    </div>
+                </div>
+            </div>";
+    }
+}
+?>
 </body>

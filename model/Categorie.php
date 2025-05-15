@@ -1,36 +1,48 @@
 <?php
 
 class Categorie{
-    public $idCat;
-    public $nom;
+    public $idCategorie;
+    public $idTypeEntretien;
+    public $superCategorie;
     public $ordre;
-    public $titre;
+    public $nom;
 
-    public function __construct($idCat, $nom, $ordre, $titre){
-        $this->idCat = $idCat;
-        $this->nom = $nom;
+    public function __construct($idCategorie, $idTypeEntretien, $superCategorie, $ordre, $nom){
+        $this->idCategorie = $idCategorie;
+        $this->idTypeEntretien = $idTypeEntretien;
+        $this->superCategorie = $superCategorie;
         $this->ordre = $ordre;
-        $this->titre = $titre;
-    }
-
-    public function getIdCat()
-    {
-        return $this->idCat;
-    }
-
-    public function setIdCat($idCat): void
-    {
-        $this->idCat = $idCat;
-    }
-
-    public function getNom()
-    {
-        return $this->nom;
-    }
-
-    public function setNom($nom): void
-    {
         $this->nom = $nom;
+    }
+
+    public function getIdCategorie()
+    {
+        return $this->idCategorie;
+    }
+
+    public function setIdCategorie($idCategorie): void
+    {
+        $this->idCategorie = $idCategorie;
+    }
+
+    public function getIdTypeEntretien()
+    {
+        return $this->idTypeEntretien;
+    }
+
+    public function setIdTypeEntretien($idTypeEntretien): void
+    {
+        $this->idTypeEntretien = $idTypeEntretien;
+    }
+
+    public function getSuperCategorie()
+    {
+        return $this->superCategorie;
+    }
+
+    public function setSuperCategorie($superCategorie): void
+    {
+        $this->superCategorie = $superCategorie;
     }
 
     public function getOrdre()
@@ -43,14 +55,14 @@ class Categorie{
         $this->ordre = $ordre;
     }
 
-    public function getTitre()
+    public function getNom()
     {
-        return $this->titre;
+        return $this->nom;
     }
 
-    public function setTitre($titre): void
+    public function setNom($nom): void
     {
-        $this->titre = $titre;
+        $this->nom = $nom;
     }
 
 

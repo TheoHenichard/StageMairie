@@ -3,14 +3,16 @@
 if (isset($_GET['profil'])) {
     $profil = (int)$_GET['profil'];
 }
-$profil=2;
+$profil=1;
+$typeEntretien=2;
+
 ?>
 
 <!doctype html>
 <html lang="fr">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Entretien annuel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,7 +25,7 @@ $profil=2;
 <body style="margin-left: 10%; margin-right: 10%">
 <form action="Entretien.php" method="post">
     <div class="header">
-        <img src="logo_footer.png" alt="logo">
+        <img src="../image/logo_footer.png" width="262" height="262">
         <h1 style="margin: 0;">C.C.A.S. BOULOGNE-SUR-MER <br> Année 2025</h1>
     </div>
 
@@ -47,280 +49,94 @@ $profil=2;
     $recup=[];
 
     echo "<b class='grp'>GROUPE FONCTIONNEL $grp</b>";
-    ?>
-
-    <b class="Titre">▼ IDENTITÉ / SITUATION ADMINISTRATIVE</b>
-    <table>
-        <tr>
-            <td style='width: 30%'>DIRECTION</td>
-            <td><input type="text"  class="inv" name="direction" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>SERVICE</td>
-            <td><input type="text" class="inv" name="service" value=""></td>
-        </tr>
-    </table>
-
-    <b class="Titre">▼ AGENT ÉVALUÉ</b>
-    <table>
-        <tr>
-            <td style='width: 30%'>NOM</td>
-            <td><input type="text" class="inv" name="nom" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>PRENOM</td>
-            <td><input type="text" class="inv" name="prenom" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>GRADE</td>
-            <td><input type="text" class="inv" name="grade" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>EMPLOI</td>
-            <td><input type="text" class="inv" name="emploi" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>LIEU D'AFFECTATION</td>
-            <td><input type="text" class="inv" name="lieu" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>TEMPS DE TRAVAIL</td>
-            <td><input type="text" class="inv" name="temps_travail" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>QUOTITÉ DE TRAVAIL</td>
-            <td><input type="text" class="inv" name="quotite" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>DIPLOME LE PLUS ÉLEVÉ OBTENU PAR L’AGENT </td>
-            <td><input type="text" class="inv" name="diplome_plus_eleve" value=""></td>
-        </tr>
-    </table>
-
-    <b class="Titre">▼ EVALUATEUR (SUPERIEUR HIERARCHIQUE DIRECT)</b>
-    <table>
-        <tr>
-            <td style='width: 30%'>NOM</td>
-            <td><input type="text" class="inv" name="nom_eval" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>PRENOM</td>
-            <td><input type="text" class="inv" name="prenom_eval" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>GRADE</td>
-            <td><input type="text" class="inv" name="grade_eval" value=""></td>
-        </tr>
-        <tr>
-            <td >EMPLOI</td>
-            <td><input type="text" class="inv" name="emploi_eval" value=""></td>
-        </tr>
-    </table>
-
-    <table>
-        <tr>
-            <th>
-
-            </th>
-            <th>
-                <b class="Titre">Dates</b>
-            </th>
-        </tr>
-        <tr>
-            <td style='width: 30%'>DATE D’ÉLABORATION DE LA FICHE DE POSTE :</td>
-            <td><input class="inv" type="text" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>DATE DE MISE A JOUR DE LA FICHE DE POSTE : </td>
-            <td><input class="inv" type="text" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>CONVOCATION : </td>
-            <td><input class="inv" type="text" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>DURÉE ENTRETIEN : </td>
-            <td><input class="inv" type="text" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>NOTIFICATION : </td>
-            <td><input class="inv" type="text" value=""></td>
-        </tr>
-        <tr>
-            <td style='width: 30%'>RETOUR A L’AGENT : </td>
-            <td><input class="inv" type="text" value=""></td>
-        </tr>
-    </table>
-
-    <?php
-    foreach ($listCategorie as $categorie){
+    $listCat = $categorieRepository->getById($typeEntretien);
+    foreach ($listCat as $categorie){
     $nom = $categorie->getNom();
-    if($categorie->getTitre()!=0){
+    if($categorie->getSuperCategorie()!=0){
         echo "<h3 class='Titre'>$nom</h3><br>";
     }
     else{
         echo "<b class='Titre'>$nom</b><br>";
     }
-    foreach ($listLiaison as $liaisons) {
-    if($liaisons->getIdcat()==$categorie->getOrdre()){
-    if($liaisons->getIdtab()!=0){
-    echo "<form action='Entretien.php?profil=$profil' method='post'>";
-    foreach ($listTab as $tableau){
-        if($liaisons->getIdtab()==$tableau->getIdtab()){
-            $titre = $tableau->getTitre();
-        echo "<h3>$titre</h3>";
-        $tab = [];
-        foreach ($listLigneTab as $ligne) {
-            if($ligne->getIdtableau()==$tableau->getIdtab()){
-            $recup[]=$ligne->getCritere();
-            $tab[] = [
-                'Critère' => $ligne->getCritere(),
-                'Définition' => $ligne->getDefinition(),
-                'Options' => [$ligne->getTexte0(),$ligne->getTexte1(),$ligne->getTexte2(),$ligne->getTexte3()]
-            ];
-        }}
-        ?>
-        <table class="tab1" >
-            <thead>
-            <tr>
-                <th>Critère</th>
-                <th>Définition</th>
-                <th>Insuffisant</th>
-                <th>À améliorer</th>
-                <th>Satisfaisant</th>
-                <th>Supérieur aux attentes</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($tab as $ligne):
-                $num = 1;
+    $questionsCat = $questionRepository->getById($categorie->getIdcategorie());
+    foreach ($questionsCat as $question){
+        $idQ = $question->getIdquestion();
+        $textintro = $question->getTextintro();
+        echo "<p> $textintro</p>";
+        if($question->getTypequestion()=="tableau") {
+            $tableau = $tableauRepository->getById($question->getIdquestion());
+
+            foreach ($tableau as $tab) {
                 ?>
-                <tr>
-                    <td><b><?= htmlspecialchars($ligne['Critère']); ?></b></td>
-                    <td><?= htmlspecialchars($ligne['Définition']); ?></td>
-                    <?php
-                    foreach ($ligne['Options'] as $key => $option): ?>
-                        <td>
-                            <?php
-                            $uniqueId = htmlspecialchars($ligne['Critère'] . '_' . $key);
-                            ?>
-                            <input id='<?= $uniqueId; ?>' class='tab' style='margin-left: 45%' type='radio' name='<?= htmlspecialchars($ligne['Critère']); ?>' value='<?= $num ?>' <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'){if ($_POST[0]=$num){echo 'checked';}} ?>>
-                            <label for='<?= $uniqueId; ?>'><?= htmlspecialchars($option); ?></label>
-                        </td>
-                        <?php
-                        $num++;
-                    endforeach; ?>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-
-        <?php
-        $num=0;
-    }}}
-    ?>
-</form>
-<?php
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    echo "<h3>Données du formulaire :</h3>";
-    foreach ($_POST as $key => $value) {
-        echo "Clé: $key — Valeur: $value<br>";
-    }
-}
-if ($liaisons->getIdtableau()!=0){
-    foreach ($listTableau as $tableau){
-        if ($liaisons->getIdtableau()==$tableau->getIdtableau()){
-            ?>
-            <table>
+                    <div class="container-question" style="padding-bottom: 40px">
                 <?php
-                foreach ($listLigne as $ligne) {
-                        if ($ligne->getIdtableau()==$tableau->getIdtableau()){
-                            ?>
-                            <tr>
-                                <?php
-                                foreach ($listVal as $val){
-                                    if ($ligne->getIdligne()==$val->getIdlignetableau()){
-                                        if ($val->getTexte()=="text"){
-                                            echo'<td><input type="text" class="inv" value=""></td>';
-                                        }
-                                        else if ($val->getTexte()=="radio"){
-                                            ?>
-                                            <td><input type="radio" class="inv" name="<?=$ligne->getIdligne()?>" value=""></td>
-                                            <?php
-                                        }
-                                        else{
-                                            ?>
-                                            <td><?= $val->getTexte() ?> </td>
-                                            <?php
-                                        }
-                                    }
-                                }
-                                ?>
-                            </tr>
-                            <?php
-                        }
+            $lignes = $tableauLigneRepository->getById($tab->getIdTypeQuestion());
+            foreach ($lignes as $ligne) {
+                ?><div class="row" style="border: 1px solid #000 ;"><?php
+            $colonnes = $tableauColonneRepository->getById($ligne->getIdTableauLigne());
+            $critere =$colonnes[0]->getTexte();
+            foreach ($colonnes as $colonne) {
+                if ($colonne->getTypeColonne() == "texte"){
+                $texte = $colonne->getTexte();
+                    ?>
+                        <div class="col" style="border: 1px solid #000000;"
+                        ><p style="font-size: 20px"><?php echo $texte ?></p></div>
+                <?php }
+                if ($colonne->getTypeColonne() == "textinput"){
+                    echo'<div class="col" style="border: 1px solid #000; width: 150%; resize: none; rows=6"><input type="text" class="inv" value=""></div>';
                 }
-            }?>
-        </table>
-        <?php
+                if ($colonne->getTypeColonne() == "radio"){
+                    $texte = $colonne->getTexte();
+                    $class = "tab";
+                    if($texte==""){
+                        $class = "";
+                    }
+
+                    ?>
+                            <div class="col" style="border: 1px solid #000;">
+                        <?php
+                        $uniqueId = "radio_".$critere.$colonne->getIdTableauColonne();
+                        ?>
+                        <input id='<?= $uniqueId; ?>' class='<?= $class ?>' style='margin-left: 45%' type='radio' name='<?= htmlspecialchars($critere) ?>'>
+                        <label for='<?= $uniqueId; ?>'><?= htmlspecialchars($texte); ?></label></div>
+                        <?php
+                }
+                }
+        ?></div><?php }   ?> </div><?php }}
+
+        if($question->getTypequestion()=="textinput"){
+            echo "<textarea id='$idQ' style='width: 100%; resize: none' rows=6></textarea><br>";
+        }
+        if($question->getTypequestion()=="radio"){
+
+            $radios = $radioCheckboxRepo->getById($question->getIdquestion());
+            $num = 0;
+            foreach ($radios as $radio){
+                $idUnique = $idQ."-".$radio->getIdTypeQuestion();
+                $name = $idQ."-".$radio->getIdQuestion();
+                $rep = $radio->getReponse();
+                echo "<input class='q' id='$idUnique' type='radio' name='$name' value='$num'>";
+                echo "<label for='$idUnique'>$rep</label>";
+            }
+            echo "<br>";
+        }
+        if($question->getTypequestion()=="checkbox"){
+            $checkboxs = $radioCheckboxRepo->getById($question->getIdquestion());
+            $num = 0;
+            foreach ($checkboxs as $checkbox){
+                $idUnique = $idQ."-".$checkbox->getIdTypeQuestion();
+                $name = $idQ;
+                $rep = $checkbox->getReponse();
+                echo "<input class='q' id='$idUnique' type='checkbox' name='$name' value='$num'>";
+                echo "<label for='$idUnique'>$rep</label>";
+            }
+            echo "<br>";
+        }
     }
-}
-
-foreach ($listQuestion as $question){
-    if($categorie->getOrdre()==$liaisons->getIdcat()){
-    if($liaisons->getIdquestion()!=null && $liaisons->getIdquestion()==$question->getIdquestion()){
-        $texte = $question->getTexte();
-        $texte1 = $question->getTexte();
-        if($question->getIsquestion() == "t") {
-            echo  "<p>$texte</p>";}
-        if ($question->getIsquestion() == "f") {
-            if($question->getIsquestion()=="h2"){
-                echo  "<h2 style='color: #19169d; font-family:Arial,serif'>$texte1</h2>";
-            }
-            if ($question->getIsquestion()=="h3"){
-                echo  "<h3>$texte1</h3>";
-            }
-        }
-        switch($question->getTypeaffichage()){
-            case "text":
-                $taille = $question->getTaille();
-                echo"<form><textarea style='resize: none' rows='$taille' cols='100%'></textarea> </form><br>";
-                break;
-            case "checkbox":
-                foreach ($listReponse as $index => $reponse) {
-                    if($reponse->getIdquestion()==$question->getIdquestion()){
-                    $reponseT = htmlspecialchars($reponse->getReponse());
-                    $name = htmlspecialchars($categorie->getIdcat());
-                    $idUnique = "reponse_" . htmlspecialchars($index).htmlspecialchars($categorie->getIdcat()).htmlspecialchars($question->getIdquestion());
-                    echo "<input class='q' id='$idUnique' type='checkbox' name='$name' value='$reponseT'>";
-                    echo "<label for='$idUnique'>$reponseT</label>";
-                }}
-                echo "<br><br>";
-                break;
-            case "radio":
-                foreach ($listReponse as $index => $reponse) {
-                    if($reponse->getIdquestion()==$question->getIdquestion()){
-                    $reponseT = htmlspecialchars($reponse->getReponse());
-                    $name = htmlspecialchars($categorie->getIdcat()).htmlspecialchars($question->getIdquestion());
-                    $idUnique = "reponse_" . htmlspecialchars($index).htmlspecialchars($categorie->getIdcat()).htmlspecialchars($question->getIdquestion());
-                    echo "<input class='q' id='$idUnique' type='radio' name='$name' value='$reponseT'>";
-                    echo "<label for='$idUnique'>$reponseT</label>";
-                }}
-                echo "<br><br>";
-                break;
-        }
-
-        if($question->getOrdre() == 2){
-            $e = $question->getTexte();
-        }
-    }}}}
-}
-}
-
-
+    }
 ?>
+
+
 
 <div class="no-print">
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -350,43 +166,74 @@ foreach ($listQuestion as $question){
             </div>
         </div>
     </div>
-
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Ajouter une question
     </button>
-
     <button id="downloadPdf" class="btn btn-primary">Télécharger en PDF</button>
+    <button id="recupererDonnees" class="btn btn-success">Récupérer les données</button>
+
 </div>
-<script>
-    document.getElementById('downloadPdf').addEventListener('click', () => {
-        const { jsPDF } = window.jspdf;
-        const noPrintElements = document.querySelectorAll('.no-print');
-        noPrintElements.forEach(el => el.style.display = 'none');
+    <script>
+        document.getElementById('downloadPdf').addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const noPrintElements = document.querySelectorAll('.no-print');
+            const scaleFactor = 2; // Résolution d'html2canvas améliorée.
 
-        const pdf = new jsPDF({
-            orientation: "portrait",
-            unit: "mm",
-            format: "a4"
+            // Masquer les éléments "no-print" avant la capture
+            noPrintElements.forEach(el => el.style.display = 'none');
+
+            const pdf = new jsPDF({
+                orientation: "portrait",
+                unit: "mm",
+                format: "a4"
+            });
+
+            pdf.html(document.body, {
+                callback: function (pdf) {
+                    // Rendre les éléments masqués visibles après la génération
+                    noPrintElements.forEach(el => el.style.display = '');
+                    pdf.save("page.pdf");
+                },
+                x: 10, // Position horizontale
+                y: 10, // Position verticale
+                margin: [10, 10], // Marges
+                html2canvas: {
+                    scale: scaleFactor, // Pour meilleure résolution
+                    logging: true // Activer les logs d'erreurs console
+                }
+            });
         });
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const htmlWidth = document.body.scrollWidth;
-        const scaleFactor = pageWidth / htmlWidth;
+    </script>
 
-        pdf.html(document.body, {
-            callback: function (pdf) {
-                noPrintElements.forEach(el => el.style.display = '');
-                pdf.save("page.pdf");
-            },
-            y: 10,
-            autoPaging: true,
-            html2canvas: {
-                scale: scaleFactor
-            }
-        });
-    });
-</script>
+    <script>
 
+        function recupererInfos() {
+            const donnees = {};
+
+            const areaInputs = document.querySelectorAll('textarea');
+            areaInputs.forEach(textarea => {
+                donnees[textarea.id] = textarea.value;
+            });
+
+            const radioInputs = document.querySelectorAll('input[type="radio"]:checked');
+            radioInputs.forEach(input => {
+                donnees[input.id] = input.value;
+            });
 
 
+            const checkInputs = document.querySelectorAll('input[type="checkbox"]');
+            checkInputs.forEach(input => {
+                donnees[input.id] = input.checked;
+            });
+
+            console.log(donnees);
+            print(donnees);
+            localStorage.setItem('donneesTableau', JSON.stringify(donnees));
+        }
+        document.getElementById('recupererDonnees').addEventListener('click', function(event){event.preventDefault();recupererInfos()});
+    </script>
+    <?php
+
+    ?>
 </body>
 </html>

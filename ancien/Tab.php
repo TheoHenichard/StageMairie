@@ -1,5 +1,8 @@
 <?php
-class Tab{
+
+namespace ancien;
+class Tab
+{
     public $idTab;
     public $titre;
 

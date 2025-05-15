@@ -10,12 +10,37 @@ class CategorieRepo
  }
 
  public function getAll(){
-     $query = $this->pdo->query('SELECT * FROM categorie');
-     $categories = [];
-
-     while($categorie = $query->fetch(PDO::FETCH_ASSOC)){
-         $categories[] = new Categorie($categorie['idCat'], $categorie['nom'], $categorie['ordre'], $categorie['titre']);
+     $stmt = $this->pdo->prepare('SELECT * FROM categorie');
+     $stmt->execute();
+     $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+     foreach ($questions as $question) {
+         $tab[] = new Categorie(
+             (int)$question['idCategorie'],
+             (int)$question['idTypeEntretien'],
+             (bool)$question['superCategorie'],
+             (int)$question['ordre'],
+             $question['nom']
+         );
      }
-     return $categories;
+     return $tab;
  }
+
+    public function getById(int $id){
+        $stmt = $this->pdo->prepare('SELECT * FROM categorie WHERE idTypeEntretien = ?');
+        $stmt->execute([$id]);
+        $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (empty($questions)) {
+            return [];
+        }
+        foreach ($questions as $question) {
+            $tab[] = new Categorie(
+                (int)$question['idCategorie'],
+                (int)$question['idTypeEntretien'],
+                (bool)$question['superCategorie'],
+                (int)$question['ordre'],
+                $question['nom']
+            );
+        }
+        return $tab;
+    }
 }

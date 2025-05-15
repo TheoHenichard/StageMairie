@@ -1,8 +1,12 @@
 <?php
-class LigneTableau{
+
+namespace ancien;
+class LigneTableau
+{
     public $idligne;
     public $idtableau;
     public $ordre;
+
     public function __construct($idligne, $idtableau, $ordre)
     {
         $this->idligne = $idligne;
@@ -39,8 +43,6 @@ class LigneTableau{
     {
         $this->ordre = $ordre;
     }
-
-
 
 
 }

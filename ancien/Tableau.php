@@ -1,5 +1,8 @@
 <?php
-class Tableau{
+
+namespace ancien;
+class Tableau
+{
     public $idTableau;
     public $entete;
     public $taille;
@@ -40,7 +43,6 @@ class Tableau{
     {
         $this->taille = $taille;
     }
-
 
 
 }

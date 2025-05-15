@@ -13,10 +13,8 @@ class Router
         $url = isset($_GET['url']) ? explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL)) : [];
          //Pour mise en prod, quand DocumentRoot de Apache pointera sur le bon dossier il faudra décommenter cette ligne et commenter la suivante (s'il reste des erreurs, vérifier le .htaccess)
         //$depart=0;
-
         $depart = 0;
-        $controllerName = !empty($url[$depart]) ? ucfirst($url[$depart]) . "Controller" : "Controller";
-
+        $controllerName = !empty($url[$depart]) ? ucfirst($url[$depart]) . "Controller" : "ControllerEmploye";
         $action = $url[($depart + 1)] ?? "index";
 
         $controllerFile = __DIR__ . "/../controller/$controllerName.php";

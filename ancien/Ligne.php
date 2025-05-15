@@ -1,5 +1,8 @@
 <?php
-class Ligne{
+
+namespace ancien;
+class Ligne
+{
     public $idLigne;
     public $idTableau;
     public $critere;
@@ -125,7 +128,6 @@ class Ligne{
     {
         $this->ordre = $ordre;
     }
-
 
 
 }

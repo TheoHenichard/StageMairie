@@ -1,49 +1,28 @@
 <?php
 class Question{
     public $idQuestion;
-    public $isQuestion;
-    public $texte;
-    public $typeaffichage;
-    public $taille;
     public $ordre;
+    public $idcategorie;
+    public $textintro;
+    public $typequestion;
 
-    public function __construct($idQuestion, $isQuestion, $texte, $typeaffichage, $taille, $ordre){
+    public function __construct($idQuestion, $ordre, $idcategorie, $textintro, $typequestion){
         $this->idQuestion = $idQuestion;
-        $this->isQuestion = $isQuestion;
-        $this->texte = $texte;
-        $this->typeaffichage = $typeaffichage;
-        $this->taille = $taille;
-        $this->ordre = $ordre;}
+        $this->ordre = $ordre;
+        $this->idcategorie = $idcategorie;
+        $this->textintro = $textintro;
+        $this->typequestion = $typequestion;
+    }
 
-    public function getIdQuestion(){
-        return $this->idQuestion;}
+    public function getIdQuestion()
+    {
+        return $this->idQuestion;
+    }
 
-    public function setIdQuestion($idQuestion): void{
-        $this->idQuestion = $idQuestion;}
-
-    public function getIsQuestion(){
-        return $this->isQuestion;}
-
-    public function setIsQuestion($isQuestion): void{
-        $this->isQuestion = $isQuestion;}
-
-    public function getTexte(){
-        return $this->texte;}
-
-    public function setTexte($texte): void{
-        $this->texte = $texte;}
-
-    public function getTypeaffichage(){
-        return $this->typeaffichage;}
-
-    public function setTypeaffichage($typeaffichage): void{
-        $this->typeaffichage = $typeaffichage;}
-
-    public function getTaille(){
-        return $this->taille;}
-
-    public function setTaille($taille): void{
-        $this->taille = $taille;}
+    public function setIdQuestion($idQuestion): void
+    {
+        $this->idQuestion = $idQuestion;
+    }
 
     public function getOrdre()
     {
@@ -53,6 +32,36 @@ class Question{
     public function setOrdre($ordre): void
     {
         $this->ordre = $ordre;
+    }
+
+    public function getIdcategorie()
+    {
+        return $this->idcategorie;
+    }
+
+    public function setIdcategorie($idcategorie): void
+    {
+        $this->idcategorie = $idcategorie;
+    }
+
+    public function getTextintro()
+    {
+        return $this->textintro;
+    }
+
+    public function setTextintro($textintro): void
+    {
+        $this->textintro = $textintro;
+    }
+
+    public function getTypequestion()
+    {
+        return $this->typequestion;
+    }
+
+    public function setTypequestion($typequestion): void
+    {
+        $this->typequestion = $typequestion;
     }
 
 

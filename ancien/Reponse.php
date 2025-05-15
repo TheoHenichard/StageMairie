@@ -1,5 +1,8 @@
 <?php
-class Reponse{
+
+namespace ancien;
+class Reponse
+{
     public $idReponse;
     public $idEntretien;
     public $idQuestion;

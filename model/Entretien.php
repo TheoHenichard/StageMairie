@@ -2,16 +2,17 @@
 class Entretien{
     public $idEntretien;
     public $date;
-    public $listCat;
-    public $idEmploye;
-    public $idTypeEntretien;
+    public $Employe;
+    public $TypeEntretien;
+    public ?array $listCategorie  = null;
 
-    public function __construct($idEntretien, $date, $idEmploye, $idTypeEntretien)
+    public function __construct(array $data = [])
     {
-        $this->idEntretien = $idEntretien;
-        $this->date = $date;
-        $this->idEmploye = $idEmploye;
-        $this->idTypeEntretien = $idTypeEntretien;
+        if (isset($data['idEntretien'])) {$this->idEntretien = $data['idEntretien'];}
+        if (isset($data['date'])) {$this->date = $data['date'];}
+        if (isset($data['Employe'])) {$this->Employe = $data['Employe'];}
+        if (isset($data['TypeEntretien'])) {$this->TypeEntretien = $data['TypeEntretien'];}
+        if (isset($data['listCategorie'])) {$this->listCategorie = $data['listCategorie'];}
     }
 
     public function getIdEntretien()
@@ -34,24 +35,34 @@ class Entretien{
         $this->date = $date;
     }
 
-    public function getIdEmploye()
+    public function getEmploye()
     {
-        return $this->idEmploye;
+        return $this->Employe;
     }
 
-    public function setIdEmploye($idEmploye): void
+    public function setEmploye($Employe): void
     {
-        $this->idEmploye = $idEmploye;
+        $this->Employe = $Employe;
     }
 
-    public function getIdTypeEntretien()
+    public function getTypeEntretien()
     {
-        return $this->idTypeEntretien;
+        return $this->TypeEntretien;
     }
 
-    public function setIdTypeEntretien($idTypeEntretien): void
+    public function setTypeEntretien($TypeEntretien): void
     {
-        $this->idTypeEntretien = $idTypeEntretien;
+        $this->TypeEntretien = $TypeEntretien;
+    }
+
+    public function getListCategorie(): ?array
+    {
+        return $this->listCategorie;
+    }
+
+    public function setListCategorie(?array $listCategorie): void
+    {
+        $this->listCategorie = $listCategorie;
     }
 
 

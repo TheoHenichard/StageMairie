@@ -13,6 +13,7 @@ class ControllerEmploye
         $pdo = $controller->pdo;
         $employeRepository = new EmployeRepo($pdo);
         $entretienRepository = new EntretienRepo($pdo);
+        $listEntretienALl = $entretienRepository->getAll();
         include '../vue/Dashboard.php';
     }
 }

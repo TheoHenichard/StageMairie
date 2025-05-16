@@ -23,7 +23,6 @@ $typeEntretien=2;
     <meta name="description" content="">
 </head>
 <body style="margin-left: 10%; margin-right: 10%">
-<form action="Entretien.php" method="post">
     <div class="header">
         <img src="../image/logo_footer.png" width="262" height="262">
         <h1 style="margin: 0;">C.C.A.S. BOULOGNE-SUR-MER <br> Année 2025</h1>

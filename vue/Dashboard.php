@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="utf-8">
@@ -27,23 +27,25 @@
 </select>
     <input type="submit" value="Valider">
 </form>
+</br></br>
 <?php
-if (isset($_POST['employe'])) {
+if (isset($_POST['employe']) && $_POST['employe']!="") {
     $idemploye = $_POST['employe'];
-    $listEntretien = $entretienRepository->getById($idemploye);
+    $listEntretien = $entretienRepository->getById($idemploye);}
+else{$listEntretien = $listEntretienALl;}
     foreach ($listEntretien as $entretien){
-        $idEntretien = $entretien->getIdTypeEntretien();
+        $idEntretien = $entretien->getTypeEntretien()->getIdTypeEntretien();
         $date = $entretien->getDate();
+        $nom = $entretien->getEmploye()->getNom();
         echo "<div class='col-sm-4 col-md-4 col-lg-4'>
                 <div class='card'>
                     <div class='card-body'>
-                        <h5 class='card-title'>$date</h5>
+                        <h5 class='card-title'>$nom</h5>
                         <p class='card-text'>$date</p>
                         <a href='entretien/voir/profil=$idEntretien' class='btn btn-primary'>Voir</a>
                     </div>
                 </div>
-            </div>";
+            </div></br>";
     }
-}
 ?>
 </body>

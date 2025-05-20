@@ -17,24 +17,46 @@ class EntretienRepo
      $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
      foreach ($questions as $question) {
          $ent=[];
-         $ent['TypeEntretien']= new TypeEntretien( $question['idTypeEntretien'], $question['type'], $question['actif']);
-         $ent['Employe']= new Employe($question['idEmploye'],$question['nom']);
+
+         $te = [];
+         $te['idEntretien']=$question['idEntretien'];
+         $te['type']=$question['type'];
+         $te['actif']=$question['actif'];
+
+         $ent['TypeEntretien']= new TypeEntretien($te);
+
+         $emp=[];
+         $emp['nom']=$question['nom'];
+         $emp['idEmploye']=$question['idEmploye'];
+
+         $ent['Employe']= new Employe($emp);
          $ent['idEntretien'] = $question['idEntretien'];
          $ent['date'] = $question['date'];
          $tab[] = new Entretien($ent);}
      return $tab;
  }
 
-    public function getById(int $id){
+    public function getByEmploye(Employe $employe){
         $stmt = $this->pdo->prepare('SELECT idEntretien,date,em.nom,em.idEmploye,te.idTypeEntretien,te.type,te.actif FROM Entretien en JOIN Employe em ON en.idEmploye = em.idEmploye JOIN TypeEntretien te ON en.idTypeEntretien = te.idTypeEntretien WHERE en.idEmploye = ? ORDER BY date DESC');
-        $stmt->execute([$id]);
+        $stmt->execute([$employe->getIdEmploye()]);
         $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (empty($questions)) {
             return [];}
         foreach ($questions as $question) {
             $ent=[];
-            $ent['TypeEntretien']= new TypeEntretien( $question['idTypeEntretien'], $question['type'], $question['actif']);
-            $ent['Employe']= new Employe($question['idEmploye'],$question['nom']);
+
+            $te = [];
+            $te['idEntretien']=$question['idEntretien'];
+            $te['type']=$question['type'];
+            $te['actif']=$question['actif'];
+
+            $ent['TypeEntretien']= new TypeEntretien($te);
+
+            $emp=[];
+            $emp['nom']=$question['nom'];
+            $emp['idEmploye']=$question['idEmploye'];
+
+            $ent['Employe']= new Employe($emp);
             $ent['idEntretien'] = $question['idEntretien'];
             $ent['date'] = $question['date'];
             $tab[] = new Entretien($ent);}

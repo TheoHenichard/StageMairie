@@ -4,8 +4,18 @@ if (isset($_GET['profil'])) {
     $profil = (int)$_GET['profil'];
 }
 $profil=1;
-$typeEntretien=2;
 
+$idEntretien=1;
+
+
+$reponses = $reponseRepo->getAll();
+foreach ($reponses as $rep) {
+    if($rep->getTableauLigne() !== null){
+        $repTableau[$rep->getEntretien()-$rep->getQuestion()-$rep->getTableauLigne()] = $rep;
+    }
+    else{
+    $reponse[$rep->getEntretien()-$rep->getQuestion()] = $rep;}
+}
 ?>
 
 <!doctype html>
@@ -48,7 +58,6 @@ $typeEntretien=2;
     $recup=[];
 
     echo "<b class='grp'>GROUPE FONCTIONNEL $grp</b>";
-    $listCat = $categorieRepository->getById($typeEntretien);
     foreach ($listCat as $categorie){
     $nom = $categorie->getNom();
     if($categorie->getSuperCategorie()!=0){
@@ -57,7 +66,7 @@ $typeEntretien=2;
     else{
         echo "<b class='Titre'>$nom</b><br>";
     }
-    $questionsCat = $questionRepository->getById($categorie->getIdcategorie());
+    $questionsCat = $questionRepository->getByCategorie($categorie); //Voir avec Marie parce que ca me semble pas bon maus jvois pas comment sinon
     foreach ($questionsCat as $question){
         $idQ = $question->getIdquestion();
         $textintro = $question->getTextintro();
@@ -69,10 +78,10 @@ $typeEntretien=2;
                 ?>
                     <div class="container-question" style="padding-bottom: 40px">
                 <?php
-            $lignes = $tableauLigneRepository->getById($tab->getIdTypeQuestion());
+            $lignes = $tableauLigneRepository->getByIdTableau($tab);
             foreach ($lignes as $ligne) {
                 ?><div class="row" style="border: 1px solid #000 ;"><?php
-            $colonnes = $tableauColonneRepository->getById($ligne->getIdTableauLigne());
+            $colonnes = $tableauColonneRepository->getByIdTableauLigne($ligne);
             $critere =$colonnes[0]->getTexte();
             foreach ($colonnes as $colonne) {
                 if ($colonne->getTypeColonne() == "texte"){
@@ -82,7 +91,10 @@ $typeEntretien=2;
                         ><p style="font-size: 20px"><?php echo $texte ?></p></div>
                 <?php }
                 if ($colonne->getTypeColonne() == "textinput"){
-                    echo'<div class="col" style="border: 1px solid #000; width: 150%; resize: none; rows=6"><input type="text" class="inv" value=""></div>';
+                    if(isset($repTableau[$idEntretien-$idQ-$ligne->getIdTableauLigne()]) ){
+                    $repTab = $repTableau[$idEntretien-$idQ-$ligne->getIdTableauLigne()]->getReponseTypeTableau();;}
+                    else{$repTab = 'rien dans la bdd ';}
+                    echo"<div class='col' style='border: 1px solid #000; width: 150%; resize: none; rows=6'><input type='text' class='inv' value=' $repTab '></div>";
                 }
                 if ($colonne->getTypeColonne() == "radio"){
                     $texte = $colonne->getTexte();
@@ -90,7 +102,6 @@ $typeEntretien=2;
                     if($texte==""){
                         $class = "";
                     }
-
                     ?>
                             <div class="col" style="border: 1px solid #000;">
                         <?php
@@ -104,29 +115,56 @@ $typeEntretien=2;
         ?></div><?php }   ?> </div><?php }}
 
         if($question->getTypequestion()=="textinput"){
-            echo "<textarea id='$idQ' style='width: 100%; resize: none' rows=6></textarea><br>";
+
+            if(isset($reponse[$idEntretien-$question->getIdquestion()])){
+                $repText = $reponse[$idEntretien-$question->getIdquestion()]->getReponseTypeText();}
+            else{$repText="";}
+
+            echo "<textarea id='$idEntretien-$idQ' style='width: 100%; resize: none' maxlength='500' rows=6>$repText</textarea><br>";
         }
         if($question->getTypequestion()=="radio"){
+;
+            if(isset($reponse[$idEntretien-$idQ])){
+                $repRadio = $reponse[$idEntretien-$idQ]->getReponseTypeRadio();}
+            else{$repRadio='';}
 
-            $radios = $radioCheckboxRepo->getById($question->getIdquestion());
-            $num = 0;
+            $radios = $radioCheckboxRepo->getByIdQuestion($question);
             foreach ($radios as $radio){
                 $idUnique = $idQ."-".$radio->getIdTypeQuestion();
-                $name = $idQ."-".$radio->getIdQuestion();
+
+                $name = $idQ."-".$radio->getQuestion()->getIdQuestion();
                 $rep = $radio->getReponse();
-                echo "<input class='q' id='$idUnique' type='radio' name='$name' value='$num'>";
+                if($repRadio==$idUnique){
+                $checked = "checked";
+                }
+                else{$checked='';
+                }
+                echo "<input class='q' id='$idUnique' type='radio' name='$name' value='$repRadio' $checked >";
                 echo "<label for='$idUnique'>$rep</label>";
             }
             echo "<br>";
         }
         if($question->getTypequestion()=="checkbox"){
-            $checkboxs = $radioCheckboxRepo->getById($question->getIdquestion());
+
+            if(isset($reponse[$idEntretien-$idQ])){
+                $repCheckbox = explode('/',$reponse[$idEntretien-$idQ]->getReponseTypeCheckbox());}
+            else{$repCheckbox=[];}
+
+            $checkboxs = $radioCheckboxRepo->getByIdQuestion($question);
             $num = 0;
             foreach ($checkboxs as $checkbox){
+
                 $idUnique = $idQ."-".$checkbox->getIdTypeQuestion();
                 $name = $idQ;
                 $rep = $checkbox->getReponse();
-                echo "<input class='q' id='$idUnique' type='checkbox' name='$name' value='$num'>";
+                foreach ($repCheckbox as $repCheck){
+                if($repCheck==$idUnique){
+                    $checked = "checked";
+                    break;
+                }
+                else{$checked='';
+                }}
+                echo "<input class='q' id='$idUnique' type='checkbox' name='$name' value='$num' $checked>";
                 echo "<label for='$idUnique'>$rep</label>";
             }
             echo "<br>";
@@ -138,36 +176,6 @@ $typeEntretien=2;
 
 
 <div class="no-print">
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <label>
-                        <select>
-                            <option> </option>
-                            <?php
-                            foreach ($listCategorie as $categorie){
-                                $nomCat = $categorie->getNom();
-                                echo "<option value=''>$nomCat</option>";
-                            }
-                            ?>
-                        </select>
-                    </label>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Ajouter une question
-    </button>
     <button id="downloadPdf" class="btn btn-primary">Télécharger en PDF</button>
     <button id="recupererDonnees" class="btn btn-success">Récupérer les données</button>
 
@@ -176,9 +184,8 @@ $typeEntretien=2;
         document.getElementById('downloadPdf').addEventListener('click', () => {
             const { jsPDF } = window.jspdf;
             const noPrintElements = document.querySelectorAll('.no-print');
-            const scaleFactor = 2; // Résolution d'html2canvas améliorée.
+            const scaleFactor = 2;
 
-            // Masquer les éléments "no-print" avant la capture
             noPrintElements.forEach(el => el.style.display = 'none');
 
             const pdf = new jsPDF({
@@ -189,16 +196,15 @@ $typeEntretien=2;
 
             pdf.html(document.body, {
                 callback: function (pdf) {
-                    // Rendre les éléments masqués visibles après la génération
                     noPrintElements.forEach(el => el.style.display = '');
                     pdf.save("page.pdf");
                 },
-                x: 10, // Position horizontale
-                y: 10, // Position verticale
-                margin: [10, 10], // Marges
+                x: 10,
+                y: 10,
+                margin: [10, 10],
                 html2canvas: {
-                    scale: scaleFactor, // Pour meilleure résolution
-                    logging: true // Activer les logs d'erreurs console
+                    scale: scaleFactor,
+                    logging: true
                 }
             });
         });

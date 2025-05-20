@@ -2,17 +2,17 @@
 
 class Categorie{
     public $idCategorie;
-    public $idTypeEntretien;
+    public $typeEntretien;
     public $superCategorie;
     public $ordre;
     public $nom;
 
-    public function __construct($idCategorie, $idTypeEntretien, $superCategorie, $ordre, $nom){
-        $this->idCategorie = $idCategorie;
-        $this->idTypeEntretien = $idTypeEntretien;
-        $this->superCategorie = $superCategorie;
-        $this->ordre = $ordre;
-        $this->nom = $nom;
+    public function __construct(array $data = []){
+        if (isset($data['idCategorie'])) {$this->idCategorie = $data['idCategorie'];}
+        if (isset($data['typeEntretien'])) {$this->typeEntretien = $data['typeEntretien'];}
+        if (isset($data['superCategorie'])) {$this->superCategorie = $data['superCategorie'];}
+        if (isset($data['ordre'])) {$this->ordre = $data['ordre'];}
+        if (isset($data['nom'])) {$this->nom = $data['nom'];}
     }
 
     public function getIdCategorie()
@@ -25,14 +25,14 @@ class Categorie{
         $this->idCategorie = $idCategorie;
     }
 
-    public function getIdTypeEntretien()
+    public function getTypeEntretien()
     {
-        return $this->idTypeEntretien;
+        return $this->typeEntretien;
     }
 
-    public function setIdTypeEntretien($idTypeEntretien): void
+    public function setTypeEntretien($typeEntretien): void
     {
-        $this->idTypeEntretien = $idTypeEntretien;
+        $this->typeEntretien = $typeEntretien;
     }
 
     public function getSuperCategorie()
@@ -64,6 +64,7 @@ class Categorie{
     {
         $this->nom = $nom;
     }
+
 
 
 }

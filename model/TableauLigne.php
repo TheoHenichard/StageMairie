@@ -2,16 +2,15 @@
 class TableauLigne
 {
     public $idTableauLigne;
-    public $idTableau;
+    public $tableau;
     public $ordre;
     public $typeLigne;
 
-    public function __construct($idTableauLigne, $idTableau, $ordre, $typeLigne)
-    {
-        $this->idTableauLigne = $idTableauLigne;
-        $this->idTableau = $idTableau;
-        $this->ordre = $ordre;
-        $this->typeLigne = $typeLigne;
+    public function __construct(array $data){
+        if(isset($data['idTableauLigne'])){$this->idTableauLigne = $data['idTableauLigne'];}
+        if(isset($data['tableau'])){$this->tableau = $data['tableau'];}
+        if(isset($data['ordre'])){$this->ordre = $data['ordre'];}
+        if(isset($data['typeLigne'])){$this->typeLigne = $data['typeLigne'];}
     }
 
     public function getIdTableauLigne()
@@ -24,14 +23,14 @@ class TableauLigne
         $this->idTableauLigne = $idTableauLigne;
     }
 
-    public function getIdTableau()
+    public function getTableau()
     {
-        return $this->idTableau;
+        return $this->tableau;
     }
 
-    public function setIdTableau($idTableau): void
+    public function setTableau($tableau): void
     {
-        $this->idTableau = $idTableau;
+        $this->tableau = $tableau;
     }
 
     public function getOrdre()
@@ -53,7 +52,5 @@ class TableauLigne
     {
         $this->typeLigne = $typeLigne;
     }
-
-
 
 }

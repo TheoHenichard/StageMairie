@@ -3,10 +3,9 @@ class Employe{
     public $idEmploye;
     public $nom;
 
-    public function __construct($idEmploye, $nom)
-    {
-        $this->idEmploye = $idEmploye;
-        $this->nom = $nom;
+    public function __construct(array $data = []){
+        if (isset($data['idEmploye'])){$this->idEmploye = $data['idEmploye'];}
+        if (isset($data['nom'])){$this->nom = $data['nom'];}
     }
 
     public function getIdEmploye()

@@ -12,8 +12,15 @@ class ControllerEmploye
         $controller = new Controller();
         $pdo = $controller->pdo;
         $employeRepository = new EmployeRepo($pdo);
+        $employeAll = $employeRepository->getAll();
         $entretienRepository = new EntretienRepo($pdo);
         $listEntretienALl = $entretienRepository->getAll();
+        if (isset($_POST['employe']) && $_POST['employe']!=""){
+            echo $_POST['employe'];
+            $employe = $employeRepository->getById($_POST['employe']);
+            $listEntretien = $entretienRepository->getByEmploye($employe);}
+        else{
+            $listEntretien = $listEntretienALl;}
         include '../vue/Dashboard.php';
     }
 }

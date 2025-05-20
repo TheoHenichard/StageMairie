@@ -14,27 +14,22 @@ class EmployeRepo
      $stmt->execute();
      $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
      foreach ($questions as $question) {
-         $tab[] = new Employe(
-             (int)$question['idEmploye'],
-             $question['nom']
-         );
-     }
+         $emp=[];
+         $emp['idEmploye']=$question['idEmploye'];
+         $emp['nom']=$question['nom'];
+         $tab[] = new Employe($emp);}
      return $tab;
  }
 
-    public function getById(int $id){
+    public function getById(Employe $employe){
         $stmt = $this->pdo->prepare('SELECT * FROM employe WHERE idEmploye = ?');
-        $stmt->execute([$id]);
+        $stmt->execute([$employe]);
         $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (empty($questions)) {
-            return [];
-        }
-        foreach ($questions as $question) {
-            $tab[] = new Employe(
-                (int)$question['idEmploye'],
-                $question['nom']
-            );
-        }
-        return $tab;
+        $question = $questions[0];
+        $tab=[];
+        $tab['idEmploye']=$question['idEmploye'];
+        $tab['nom']=$question['nom'];
+        return new Employe($tab);
+
     }
 }

@@ -5,11 +5,10 @@ class TypeEntretien
     public $type;
     public $actif = true;
 
-    public function __construct($idTypeEntretien, $type, bool $actif)
-    {
-        $this->idTypeEntretien = $idTypeEntretien;
-        $this->type = $type;
-        $this->actif = $actif;
+    public function __construct(array $data){
+        if(isset($data['idTypeEntretien'])){$this->idTypeEntretien = $data['idTypeEntretien'];}
+        if(isset($data['type'])){$this->type = $data['type'];}
+        if(isset($data['actif'])){$this->actif = $data['actif'];}
     }
 
     public function getIdTypeEntretien()

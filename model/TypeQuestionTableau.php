@@ -2,14 +2,14 @@
 class TypeQuestionTableau
 {
     public $idTypeQuestion;
-    public $idQuestion;
+    public $question;
     public $entete;
 
-    public function __construct($idTypeQuestion, $idQuestion, $entete)
-    {
-        $this->idTypeQuestion = $idTypeQuestion;
-        $this->idQuestion = $idQuestion;
-        $this->entete = $entete;
+    public function __construct(array $data){
+        if(isset($data['idTypeQuestion'])){$this->idTypeQuestion = $data['idTypeQuestion'];}
+        if(isset($data['question'])){$this->question = $data['question'];}
+        if(isset($data['entete'])){$this->entete = $data['entete'];}
+
     }
 
     public function getIdTypeQuestion()
@@ -22,14 +22,14 @@ class TypeQuestionTableau
         $this->idTypeQuestion = $idTypeQuestion;
     }
 
-    public function getIdQuestion()
+    public function getQuestion()
     {
-        return $this->idQuestion;
+        return $this->question;
     }
 
-    public function setIdQuestion($idQuestion): void
+    public function setQuestion($question): void
     {
-        $this->idQuestion = $idQuestion;
+        $this->question = $question;
     }
 
     public function getEntete()
@@ -41,6 +41,5 @@ class TypeQuestionTableau
     {
         $this->entete = $entete;
     }
-
 
 }

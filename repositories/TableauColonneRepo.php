@@ -13,32 +13,20 @@ public function __construct(PDO $pdo){
         $valeurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($valeurs as $valeur) {
-            $tab[] = new TableauColonne(
-                (int)$valeur['idTableauColonne'],
-                (int)$valeur['idTableauLigne'],
-                (int)$valeur['ordre'],
-                $valeur['texte'],
-                $valeur['typeColonne']
-            );
+            $tab[] = new TableauColonne($valeur);
         }
         return $tab;
     }
 
-    public function getById(int $id){
+    public function getByIdTableauLigne(TableauLigne $ligne){
         $stmt = $this->pdo->prepare('SELECT * FROM tableauColonne WHERE idTableauLigne = ?');
-        $stmt->execute([$id]);
+        $stmt->execute([$ligne->getIdTableauLigne()]);
         $valeurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (empty($valeurs)) {
             return [];
         }
         foreach ($valeurs as $valeur) {
-            $tab[] = new TableauColonne(
-                (int)$valeur['idTableauColonne'],
-                (int)$valeur['idTableauLigne'],
-                (int)$valeur['ordre'],
-                $valeur['texte'],
-                $valeur['typeColonne']
-            );
+            $tab[] = new TableauColonne($valeur);
         }
         return $tab;
     }

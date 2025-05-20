@@ -8,15 +8,15 @@ class TypeQuestionTableauRepo{
     }
 
     public function getAll(){
-        $stmt = $this->pdo->query('SELECT * FROM typeQuestionTableau');
+        $stmt = $this->pdo->query('SELECT *,qu.idQuestion,qu.ordre,qu.textIntro,qu.typeQuestion FROM typeQuestionTableau tQT JOIN Question qu ON tQT.idQuestion = qu.idQuestion');
         $valeurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($valeurs as $valeur) {
-            $tab[] = new TypeQuestionTableau(
-                (int)$valeur['idTypeQuestion'],
-                (int)$valeur['idQuestion'],
-                (bool)$valeur['entete']
-            );
+
+            $tableau = [];
+            $tableau['idTypeQuestion'] = $valeur['idTypeQuestion'];
+            $tableau['entete'] = $valeur['entete'];
+            $tab[] = new TypeQuestionTableau($tableau);
         }
         return $tab;
     }
@@ -27,17 +27,13 @@ class TypeQuestionTableauRepo{
         $valeurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($valeurs as $valeur) {
-            $tab[] = new TypeQuestionTableau(
-                (int)$valeur['idTypeQuestion'],
-                (int)$valeur['idQuestion'],
-                (bool)$valeur['entete']
-            );
+
+            $tableau = [];
+            $tableau['idTypeQuestion'] = $valeur['idTypeQuestion'];
+            $tableau['entete'] = $valeur['entete'];
+            $tab[] = new TypeQuestionTableau($tableau);
         }
         return $tab;
     }
-
-
-
-
 
 }

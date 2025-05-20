@@ -1,6 +1,6 @@
 <?php
 require_once '../model/TableauLigne.php';
-class TableauLigneRepo
+class   TableauLigneRepo
 {
 private $pdo;
 
@@ -13,30 +13,21 @@ public function __construct(PDO $pdo){
         $valeurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($valeurs as $valeur) {
-            $tab[] = new TableauLigne(
-                (int)$valeur['idTableauLigne'],
-                (int)$valeur['idTableau'],
-                (int)$valeur['ordre'],
-                $valeur['typeLigne']
-            );
+
+            $tab[] = new TableauLigne( $valeur);
         }
         return $tab;
     }
 
-    public function getById(int $id){
+    public function getByIdTableau(TypeQuestionTableau $tableau){
         $stmt = $this->pdo->prepare('SELECT * FROM tableauLigne WHERE idTableau = ?');
-        $stmt->execute([$id]);
+        $stmt->execute([$tableau->getIdTypeQuestion()]);
         $valeurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (empty($valeurs)) {
             return [];
         }
         foreach ($valeurs as $valeur) {
-            $tab[] = new TableauLigne(
-                (int)$valeur['idTableauLigne'],
-                (int)$valeur['idTableau'],
-                (int)$valeur['ordre'],
-                $valeur['typeLigne']
-            );
+            $tab[] = new TableauLigne( $valeur);
         }
         return $tab;
     }

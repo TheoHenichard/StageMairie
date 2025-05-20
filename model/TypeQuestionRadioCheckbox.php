@@ -2,16 +2,15 @@
 class TypeQuestionRadioCheckbox{
 
     public $idTypeQuestion;
-    public $idQuestion;
+    public $question;
     public $reponse;
     public $ordre;
 
-    public function __construct($idTypeQuestion, $idQuestion, $reponse, $ordre)
-    {
-        $this->idTypeQuestion = $idTypeQuestion;
-        $this->idQuestion = $idQuestion;
-        $this->reponse = $reponse;
-        $this->ordre = $ordre;
+    public function __construct(array $data){
+        if(isset($data['idTypeQuestion'])){$this->idTypeQuestion = $data['idTypeQuestion'];}
+        if(isset($data['question'])){$this->question = $data['question'];}
+        if(isset($data['reponse'])){$this->reponse = $data['reponse'];}
+        if(isset($data['ordre'])){$this->ordre = $data['ordre'];}
     }
 
     public function getIdTypeQuestion()
@@ -24,14 +23,14 @@ class TypeQuestionRadioCheckbox{
         $this->idTypeQuestion = $idTypeQuestion;
     }
 
-    public function getIdQuestion()
+    public function getQuestion()
     {
-        return $this->idQuestion;
+        return $this->question;
     }
 
-    public function setIdQuestion($idQuestion): void
+    public function setQuestion($question): void
     {
-        $this->idQuestion = $idQuestion;
+        $this->question = $question;
     }
 
     public function getReponse()
@@ -53,6 +52,5 @@ class TypeQuestionRadioCheckbox{
     {
         $this->ordre = $ordre;
     }
-
 
 }

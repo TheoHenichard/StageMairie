@@ -14,14 +14,17 @@
 <body style="margin-left: 10%;margin-top: 5%; margin-right: 10%" class="bg-gray-200">
 <form action="../public/index.php" method="post">
 
-<select name='employe'>
+<select name='test'>
     <option> </option>
     <?php
-    $e = $employeRepository->getAll();
-    foreach ($e as $employe){
+    foreach ($employeAll as $employe){
         $idEmploye = $employe->getIdEmploye();
         $nom = $employe->getNom();
-        echo "<option name='' value='$idEmploye'> $nom $idEmploye</option>";
+
+        if($listEntretien[0]->getEmploye()->getIdEmploye() == $idEmploye){
+            $selected = "selected";}
+        else{$selected = "";}
+        echo "<option name='employe' value='' $selected> $nom $idEmploye</option>";
     }
     ?>
 </select>
@@ -29,10 +32,6 @@
 </form>
 </br></br>
 <?php
-if (isset($_POST['employe']) && $_POST['employe']!="") {
-    $idemploye = $_POST['employe'];
-    $listEntretien = $entretienRepository->getById($idemploye);}
-else{$listEntretien = $listEntretienALl;}
     foreach ($listEntretien as $entretien){
         $idEntretien = $entretien->getTypeEntretien()->getIdTypeEntretien();
         $date = $entretien->getDate();

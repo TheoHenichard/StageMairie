@@ -13,32 +13,31 @@ class QuestionRepo
         $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($questions as $question) {
-            $tab[] = new Question(
-                (int)$question['idQuestion'],
-                (int)$question['ordre'],
-                (int)$question['idCategorie'],
-                $question['textIntro'],
-                $question['typeQuestion']
-            );
+            $q = [];
+            $q['idQuestion'] = $question['idQuestion'];
+            $q['ordre'] = $question['ordre'];
+            $q['textIntro'] = $question['textIntro'];
+            $q['typeQuestion'] = $question['typeQuestion'];
+            $tab[] = new Question($q);
         }
         return $tab;
     }
 
-    public function getById(int $id){
+    public function getByCategorie(Categorie $categorie){
         $stmt = $this->pdo->prepare('SELECT * FROM question WHERE idCategorie = ?  ORDER BY ORDRE');
-        $stmt->execute([$id]);
+        $stmt->execute([$categorie->getIdCategorie()]);
         $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (empty($questions)) {
             return [];
         }
         foreach ($questions as $question) {
-            $tab[] = new Question(
-                (int)$question['idQuestion'],
-                (int)$question['ordre'],
-                (int)$question['idCategorie'],
-                $question['textIntro'],
-                $question['typeQuestion']
-            );
+            $q = [];
+            $q['idQuestion'] = $question['idQuestion'];
+            $q['ordre'] = $question['ordre'];
+            $q['textIntro'] = $question['textIntro'];
+            $q['typeQuestion'] = $question['typeQuestion'];
+
+            $tab[] = new Question($q);
         }
         return $tab;
     }

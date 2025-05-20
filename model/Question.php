@@ -2,16 +2,16 @@
 class Question{
     public $idQuestion;
     public $ordre;
-    public $idcategorie;
+    public $categorie;
     public $textintro;
     public $typequestion;
 
-    public function __construct($idQuestion, $ordre, $idcategorie, $textintro, $typequestion){
-        $this->idQuestion = $idQuestion;
-        $this->ordre = $ordre;
-        $this->idcategorie = $idcategorie;
-        $this->textintro = $textintro;
-        $this->typequestion = $typequestion;
+    public function __construct(array $data = []){
+        if(isset($data['idQuestion'])){$this->idQuestion = $data['idQuestion'];}
+        if(isset($data['ordre'])){$this->ordre = $data['ordre'];}
+        if(isset($data['categorie'])){$this->categorie = $data['categorie'];}
+        if(isset($data['textIntro'])){$this->textintro = $data['textIntro'];}
+        if(isset($data['typeQuestion'])){$this->typequestion = $data['typeQuestion'];}
     }
 
     public function getIdQuestion()
@@ -34,14 +34,14 @@ class Question{
         $this->ordre = $ordre;
     }
 
-    public function getIdcategorie()
+    public function getCategorie()
     {
-        return $this->idcategorie;
+        return $this->categorie;
     }
 
-    public function setIdcategorie($idcategorie): void
+    public function setCategorie($categorie): void
     {
-        $this->idcategorie = $idcategorie;
+        $this->categorie = $categorie;
     }
 
     public function getTextintro()
@@ -63,6 +63,5 @@ class Question{
     {
         $this->typequestion = $typequestion;
     }
-
 
 }

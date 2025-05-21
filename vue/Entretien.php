@@ -8,7 +8,6 @@ $profil=1;
 $idEntretien=1;
 
 
-$reponses = $reponseRepo->getAll();
 foreach ($reponses as $rep) {
     if($rep->getTableauLigne() !== null){
         $repTableau[$rep->getEntretien()-$rep->getQuestion()-$rep->getTableauLigne()] = $rep;
@@ -26,13 +25,17 @@ foreach ($reponses as $rep) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Entretien annuel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <meta name="description" content="">
 </head>
+
 <body style="margin-left: 10%; margin-right: 10%">
+<div id="pageEntretien">
     <div class="header">
         <img src="../image/logo_footer.png" width="262" height="262">
         <h1 style="margin: 0;">C.C.A.S. BOULOGNE-SUR-MER <br> Année 2025</h1>
@@ -92,9 +95,10 @@ foreach ($reponses as $rep) {
                 <?php }
                 if ($colonne->getTypeColonne() == "textinput"){
                     if(isset($repTableau[$idEntretien-$idQ-$ligne->getIdTableauLigne()]) ){
-                    $repTab = $repTableau[$idEntretien-$idQ-$ligne->getIdTableauLigne()]->getReponseTypeTableau();;}
-                    else{$repTab = 'rien dans la bdd ';}
-                    echo"<div class='col' style='border: 1px solid #000; width: 150%; resize: none; rows=6'><input type='text' class='inv' value=' $repTab '></div>";
+                    $repTab = $repTableau[$idEntretien-$idQ-$ligne->getIdTableauLigne()]->getReponseTypeTableau();}
+                    else{$repTab = '';}
+                    $maxCar = $colonne->getTailleText();
+                    echo"<div class='col ' style='border: 1px solid #000; width: 150%; resize:none; rows=6'><textarea class='form-control'  style='border: #f9f9f9;  resize:none; height: 6vw; white-space: pre-wrap; ' type='text' class='inv' maxlength='$maxCar'>$repTab</textarea></div>";
                 }
                 if ($colonne->getTypeColonne() == "radio"){
                     $texte = $colonne->getTexte();
@@ -173,7 +177,7 @@ foreach ($reponses as $rep) {
     }
 ?>
 
-
+</div>
 
 <div class="no-print">
     <button id="downloadPdf" class="btn btn-primary">Télécharger en PDF</button>
@@ -181,30 +185,33 @@ foreach ($reponses as $rep) {
 
 </div>
     <script>
-        document.getElementById('downloadPdf').addEventListener('click', () => {
+        window.addEventListener('DOMContentLoaded', () => {
             const { jsPDF } = window.jspdf;
-            const noPrintElements = document.querySelectorAll('.no-print');
-            const scaleFactor = 2;
 
-            noPrintElements.forEach(el => el.style.display = 'none');
+            document.getElementById('downloadPdf').addEventListener('click', async () => {
+                const noPrintElements = document.querySelectorAll('.no-print');
+                noPrintElements.forEach(el => el.style.display = 'none');
 
-            const pdf = new jsPDF({
-                orientation: "portrait",
-                unit: "mm",
-                format: "a4"
-            });
+                const pdf = new jsPDF({
+                    orientation: "portrait",
+                    unit: "mm",
+                    format: "a4"
+                });
 
-            pdf.html(document.body, {
-                callback: function (pdf) {
+                try {
+                    await pdf.html(document.getElementById('pageEntretien'), {
+                        html2canvas: { scale: 0.125},
+                        x: 10,
+                        y: 10,
+                        callback: function (pdf) {
+                            pdf.save("page.pdf");
+                        }
+                    });
+                } catch (error) {
+                    console.error("Erreur PDF :", error);
+                    alert("Une erreur s’est produite lors de la génération du PDF.");
+                } finally {
                     noPrintElements.forEach(el => el.style.display = '');
-                    pdf.save("page.pdf");
-                },
-                x: 10,
-                y: 10,
-                margin: [10, 10],
-                html2canvas: {
-                    scale: scaleFactor,
-                    logging: true
                 }
             });
         });
